@@ -1,0 +1,7952 @@
+/*
+ * Author       : preethi.kn.2024.cse_rajal54
+ * Generated on : 30-Oct-2026 15:43:58
+ * Version      : 1.0
+ */
+ application "SkillBridge"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form Add_Course
+		{
+			displayname = "Add Course"
+			success message = "New Course Added Successfully!"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Tutoring_Requests
+			(
+				type = list	
+				displayname = "Tutoring Requests"
+				values  = Tutoring_Request.ID
+    			bidirectional = Course
+    			displayformat = [ID]
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Course_Name
+			(
+    			type = text
+				displayname = "Course Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			unique Course_Code
+			(
+    			type = text
+				displayname = "Course Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Category
+			(
+				type = picklist	
+				values  = Add_Course_Category.ID
+    			displayformat = [Category_Name]
+				allow new entries
+				[
+					displayname = "Add New Category"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Start_Date
+			(
+    			type = date
+				displayname = "Start Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have End_Date
+			(
+    			type = date
+				displayname = "End Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Course_Summary
+			(
+    			type = richtext
+				displayname = "Course Summary"
+				height = 200px
+				toolbar = enable
+				[
+					style, font-color, background-color, alignment, link, table, bullets-and-numbering, 
+					font-size : {1, 2, 3, 4, 5, 6, 7},
+					font-family : {"Serif", "Arimo", "Ptmono", "Heuristica", "OpenSans", "Tinos", "Lato", "DejaVuSans", "ComicNeue"}
+				]
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Course_Type
+			(
+				type = radiobuttons
+				displayname = "Course Type"
+				values = {"Free","Paid"}
+				initial value = "Free"
+				layout = 2
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Amount
+			(
+				type = INR
+				initial value = 0.00
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Participants
+			(
+				type = radiobuttons
+				values = {"Limited","Unlimited"}
+				initial value = "Limited"
+				layout = 2
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Maximum_participants_allowed
+			(
+				type = number
+				displayname = "Maximum participants allowed"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Seats_Remaining
+			(
+				type = number
+				displayname = "Seats Remaining"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				values = {"Upcoming","Ongoing","Completed"}
+				initial value = "Open"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Tutor1
+			(
+				type = radiobuttons
+				displayname = "Tutor"
+				values = {"Assign Now","Let tutors select the course"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Select_Tutor
+			(
+				type = picklist	
+				displayname = "Select Tutor"
+				values  = Enroll_User[Enroll_as == "Tutor"].ID
+    			displayformat = [" " + Name.first_name + "-" + Email]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Students
+			(
+				type = list	
+				values  = Enroll_User[Enroll_as == "Student"].ID
+    			displayformat = [Name.first_name + "-" + Email]
+				sortorder = ascending
+				height = 60px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			No_of_Students
+			(
+				type = number
+				displayname = "No of Students"
+	 			row = 1
+	 			column = 1   
+				width = medium
+    			Formula_Properties
+    			(
+    						value =  input.Students.size()
+    						visibility = false
+    			)
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Add_Course_Category
+		{
+			displayname = "Add Course Category"
+			success message = "New Category Added Successfully!"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have unique Category_Name
+			(
+    			type = text
+				displayname = "Category Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Add_Course_Material
+		{
+			displayname = "Add Course Material"
+			success message = "Course Material Added Successfully!"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Course
+			(
+				type = picklist	
+				values  = Add_Course.ID
+    			displayformat = [Course_Code + " - " + Course_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section_No
+			(
+    			type = text
+				displayname = "Section No"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section_Name
+			(
+    			type = text
+				displayname = "Section Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Topics
+			(
+				type = grid
+				values  = Add_Topic.ID
+    			bidirectional = Section1
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Section1
+			(
+				type = section
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			Course_Material_Files
+			(
+    			type = upload file
+				displayname = "Course Material Files"
+    			file count = 10
+				browse = local_drive
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		print template
+			{
+				Pdf_material
+				{
+							content = {"pageNumberOption":null,"orientation":"null","images":[{"fileName":"","imageId":"","imageType":"","fileId":""}],"imageId":"","isFooterEnabled":false,"containerStyle":"","templateStyle":"text-align: left; width: 793.7px; background-image: none","version":"2","layout":"1","mainLayout":[{"elements":[],"id":1}],"resize":"a4","themeFont":"lato","isHeaderEnabled":false}
+				}
+			}
+		}
+		form Add_Topic
+		{
+			displayname = "Add Topic"
+			success message = "Topic Added Successfully!"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Course
+			(
+				type = picklist	
+				values  = Add_Course.ID
+    			displayformat = [Course_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section1
+			(
+				type = picklist	
+				displayname = "Section"
+				values  = Add_Course_Material[Course.ID == input.Course].ID
+    			bidirectional = Topics
+    			displayformat = [" - " + Section_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Topic_No
+			(
+    			type = text
+				displayname = "Topic No"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Topic_Name
+			(
+    			type = text
+				displayname = "Topic Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Description
+			(
+    			type = richtext
+				height = 200px
+				toolbar = enable
+				[
+					style, font-color, background-color, alignment, link, table, bullets-and-numbering, 
+					font-size : {1, 2, 3, 4, 5, 6, 7},
+					font-family : {"Serif", "Arimo", "Ptmono", "Heuristica", "OpenSans", "Tinos", "Lato", "DejaVuSans", "ComicNeue"}
+				]
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Tutor_Notes
+			(
+    			type = richtext
+				displayname = "Tutor Notes"
+				height = 200px
+				toolbar = enable
+				[
+					style, font-color, background-color, alignment, link, table, bullets-and-numbering, 
+					font-size : {1, 2, 3, 4, 5, 6, 7},
+					font-family : {"Serif", "Arimo", "Ptmono", "Heuristica", "OpenSans", "Tinos", "Lato", "DejaVuSans", "ComicNeue"}
+				]
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Content_File
+			(
+    			type = upload file
+				displayname = "Content File"
+				browse = local_drive, google_docs
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form AI_Learning_Assistant
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Question
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			AI_Response
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Course_Payment
+		{
+			displayname = "Course Payment"
+			success message = "Data Added!"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Course
+			(
+				type = picklist	
+				values  = Add_Course.ID
+    			displayformat = [Course_Name + " - " + Course_Code]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Student
+			(
+				type = picklist	
+				values  = Enroll_User[Enroll_as == "Student"].ID
+    			displayformat = [" " + Name.first_name + " - " + Email]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Amount
+			(
+				type = INR
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Course_Subscription
+		{
+			displayname = "Course Subscription"
+			store data in zc = false
+			success message = ""
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Course
+			(
+				type = picklist	
+				values  = Add_Course.ID
+    			displayformat = [Course_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Confirmation_Message
+			(
+    			type = plaintext
+				value = "Are you sure you want to enroll yourself in this course?"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				Ok
+				(
+   					type = button
+   					displayname = "Ok"
+				)
+				Cancel
+				(
+   					type = button
+   					displayname = "Cancel"
+				)
+			}
+		}
+		form Enroll_User
+		{
+			displayname = "Enroll User"
+			success message = "New User Added Successfully!"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			User_ID
+			(
+    			type = autonumber
+				displayname = "User ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Enroll_as
+			(
+				type = radiobuttons
+				displayname = "Enroll as"
+				values = {"Student","Tutor"}
+				initial value = "Student"
+				layout = 2
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have unique Email
+			(
+    			type = email
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Gender
+			(
+				type = radiobuttons
+				values = {"Male","Female"}
+				initial value = "Male"
+				layout = 2
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Photo
+			(
+    			type = image
+				source  = public_url,file
+				aspect ratio = original
+				camera = primary
+				show gallery = true
+				switch camera = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Date_of_Birth
+			(
+    			type = date
+				displayname = "Date of Birth"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Age
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Address
+			(
+    			type = address
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Employment_Status
+			(
+				type = picklist
+				displayname = "Employment Status"
+				values = {"Employed Full-Time","Employed Part-Time","Self-employed","Not employed, but looking for work","Not employed and not looking for work","Homemaker","Retired","Student"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Education_Level
+			(
+				type = picklist
+				displayname = "Education Level"
+				values = {"Some High School","High School Graduate or Equivalent","Trade or Vocational Degree","Some College","Associate Degree","Bachelors Degree","Professional Degree"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			About_Me
+			(
+    			type = textarea
+				displayname = "About Me"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Skill_Sets
+			(
+    			type = text
+				displayname = "Skill Sets"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				values = {"Active","Inactive"}
+				initial value = "Active"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Tutoring_Approval_Confirmation
+		{
+			displayname = "Tutoring Approval Confirmation"
+			store data in zc = false
+			success message = ""
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Confirmation_Text
+			(
+    			type = plaintext
+				value = "Approving this tutor will reject all other tutor requests for this course. Do you wish to continue?&nbsp;"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Tutor_Request
+			(
+				type = picklist	
+				displayname = "Tutor Request"
+				values  = Tutoring_Request.ID
+    			displayformat = [ID]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				Yes
+				(
+   					type = submit
+   					displayname = "Yes"
+				)
+				No
+				(
+   					type = button
+   					displayname = "No"
+				)
+			}
+		}
+		form Tutoring_Request
+		{
+			displayname = "Tutoring Request"
+			success message = "Tutor Request Added Successfully"
+			feature property = 32
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Tutor
+			(
+				type = picklist	
+				values  = Enroll_User[Enroll_as == "Tutor"].ID
+    			displayformat = [Name.first_name + " - " + Email]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Tutor_Email
+			(
+    			type = textarea
+				displayname = "Tutor Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+    			Formula_Properties
+    			(
+    						value =  input.Tutor.Email
+    						visibility = false
+    						format = html
+    			)
+			)
+			Course
+			(
+				type = picklist	
+				values  = Add_Course.ID
+    			bidirectional = Tutoring_Requests
+    			displayformat = [Course_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				values = {"Requested","Approved","Rejected"}
+				initial value = "Requested"
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		list Upcoming_Courses
+		{
+			displayName = "Upcoming Courses"
+			show all rows from Add_Course  [Status == "Upcoming"]  
+			(
+				Status
+				Students
+				Select_Tutor as "Select Tutor"
+				Course_Summary as "Course Summary"
+				Course_Type as "Course Type"
+				Amount
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Seats_Remaining as "Seats Remaining"
+				Course_Code as "Course Code"
+				End_Date as "End Date"
+				Start_Date as "Start Date"
+				Category
+				Course_Name as "Course Name"
+			)
+			filters
+			(
+				Category
+				Course_Type
+			)
+			custom actions
+			(
+				"Course Materials"
+				(
+	  			workflow = View_Course_Materials
+				show action in view header = true
+				show action in edit record menu = true
+				)
+			)
+		}
+		list Ongoing_Courses
+		{
+			displayName = "Ongoing Courses"
+			show all rows from Add_Course  [Status == "Ongoing"]  
+			(
+				Status
+				Students
+				Select_Tutor as "Select Tutor"
+				Course_Code as "Course Code"
+				End_Date as "End Date"
+				Category
+				Start_Date as "Start Date"
+				Course_Summary as "Course Summary"
+				Course_Name as "Course Name"
+				Course_Type as "Course Type"
+				Amount
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Seats_Remaining as "Seats Remaining"
+			)
+			filters
+			(
+				Category
+				Course_Type
+			)
+		}
+		list Completed_Courses
+		{
+			displayName = "Completed Courses"
+			show all rows from Add_Course  [Status == "Completed"]  
+			(
+				Students
+				Status
+				Select_Tutor as "Select Tutor"
+				Course_Code as "Course Code"
+				End_Date as "End Date"
+				Category
+				Start_Date as "Start Date"
+				Course_Summary as "Course Summary"
+				Course_Name as "Course Name"
+				Course_Type as "Course Type"
+				Amount
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Seats_Remaining as "Seats Remaining"
+			)
+		}
+		list All_Courses
+		{
+			displayName = "All Courses"
+			show all rows from Add_Course    
+			(
+				Students
+				Select_Tutor as "Select Tutor"
+				Start_Date as "Start Date"
+				Category
+				Course_Code as "Course Code"
+				Course_Summary as "Course Summary"
+				End_Date as "End Date"
+				Course_Name as "Course Name"
+				Course_Type as "Course Type"
+				Amount
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Seats_Remaining as "Seats Remaining"
+				Status
+			)
+		}
+		list All_Topics
+		{
+			displayName = "All Topics"
+			show all rows from Add_Topic    
+			(
+				Topic_No as "Topic No"
+				Topic_Name as "Topic Name"
+				Content_File as "Content File"
+				Description
+				Tutor_Notes as "Tutor Notes"
+				Section1 as "Section"
+				Course
+			)
+		}
+		list Course_Page
+		{
+			displayName = "Course Page"
+			show all rows from Add_Course_Material    
+			(
+				Course
+				Topics
+				(
+					field = Topics.Topic_No + " - " + Topics.Topic_Name
+				)
+				Section_No as "Section No"
+				Section_Name as "Section Name"
+			)
+			group by
+			(
+				Course ascending
+			)
+		}
+		list All_Course_Materials
+		{
+			displayName = "All Course Materials"
+			print template = Pdf_material
+			show all rows from Add_Course_Material    
+			(
+				Topics
+				(
+					view = All_Topics
+					field = Topics.Topic_No + "-" + Topics.Topic_Name
+				)
+				Course
+				Section_No as "Section No"
+				Section_Name as "Section Name"
+				Course_Material_Files as "Course Material Files"
+			)
+			group by
+			(
+				Course ascending
+			)
+		}
+		list Available_Courses_Student
+		{
+			displayName = "Available Courses"
+			show all rows from Add_Course  [Seats_Remaining > 0 || Participants == "Unlimited" && Start_Date == zoho.currentdate || Start_Date > zoho.currentdate && Select_Tutor.Email is not null]  
+			(
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Seats_Remaining as "Seats Remaining"
+				Status
+				Course_Summary as "Course Summary"
+				End_Date as "End Date"
+				custom action "Subscribe"
+				(
+	  			workflow = Course_Subscription
+				show action in view header = true
+				show action in edit record menu = true
+				column header = "Subscribe"
+				)
+				Start_Date as "Start Date"
+				Amount
+				Course_Name as "Course Name"
+				Course_Code as "Course Code"
+				Course_Type as "Course Type"
+				Select_Tutor as "Select Tutor"
+				Category
+				Students
+				Students.Email
+			)
+		}
+		list Ongoing_Courses_Student
+		{
+			displayName = "Ongoing Courses"
+			show all rows from Add_Course  [Status == "Ongoing" && Students.Email == zoho.adminuserid]  
+			(
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Seats_Remaining as "Seats Remaining"
+				Status
+				Students
+				Course_Type as "Course Type"
+				Course_Summary as "Course Summary"
+				End_Date as "End Date"
+				Start_Date as "Start Date"
+				Amount
+				(
+					display = total	
+				)
+				custom action "Course Material"
+				(
+	  			workflow = View_Course_Material
+				show action in view header = true
+				column header = "Course Material"
+				)
+				Category
+				Select_Tutor as "Select Tutor"
+				Course_Code as "Course Code"
+				Course_Name as "Course Name"
+				Category.Category_Name as "Category Name"
+			)
+		}
+		list All_Courses_Student
+		{
+			displayName = "All Courses"
+			show all rows from Add_Course  [Students.Email == zoho.loginuserid]  
+			(
+				Course_Name as "Course Name"
+				Course_Code as "Course Code"
+				Category
+				Start_Date as "Start Date"
+				End_Date as "End Date"
+				Course_Summary as "Course Summary"
+				Course_Type as "Course Type"
+				Status
+				Select_Tutor as "Select Tutor"
+				Amount
+				(
+					display = total	
+				)
+			)
+			filters
+			(
+				Status
+				Category
+			)
+		}
+		list My_Payments
+		{
+			displayName = "My Payments"
+			show all rows from Course_Payment  [Student.Email == zoho.loginuserid]  
+			(
+				Course
+				Amount
+				(
+					display = total	
+				)
+			)
+		}
+		summary My_Profile_Student
+		{
+			displayName = "My Profile"
+			show all rows from Enroll_User  [Email == zoho.loginuserid && Enroll_as == "Student"]  
+			(
+				Name 
+				Address 
+	 			(
+	      			enable = Show_As_Text
+	 			)
+				Gender
+				Status
+				Age
+				Date_of_Birth as "Date of Birth"
+				Employment_Status as "Employment Status"
+				Education_Level as "Education Level"
+				About_Me as "About Me"
+				Skill_Sets as "Skill Sets"
+				Email
+				Phone_Number as "Phone Number"
+				Photo
+				User_ID as "User ID"
+				Enroll_as as "Enrolled as"
+			)
+			options
+			(
+				display rows = 10
+				display records per row = 2
+			)
+		}
+		list Open_Courses
+		{
+			displayName = "Open Courses"
+			show all rows from Add_Course  [Start_Date > zoho.currentdate || Start_Date is today && Select_Tutor.Email is null]  
+			(
+				Seats_Remaining as "Seats Remaining"
+				Status
+				Course_Summary as "Course Summary"
+				custom action "Tutor this course"
+				(
+	  			workflow = Tutor_this_course
+				show action in view header = true
+				show action in edit record menu = true
+				column header = "Tutor this course"
+				condition = ((Tutoring_Requests.Course == input.ID && Tutoring_Requests.Tutor_Email != zoho.loginuserid) || Tutoring_Requests.ID is null)
+				)
+				Course_Type as "Course Type"
+				Amount
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				Category
+				End_Date as "End Date"
+				Start_Date as "Start Date"
+				Course_Code as "Course Code"
+				Course_Name as "Course Name"
+				Select_Tutor as "Select Tutor"
+			)
+		}
+		list Tutoring_Requests_Tutor
+		{
+			displayName = "Tutoring Requests"
+			show all rows from Tutoring_Request  [Tutor.Email == zoho.loginuserid]  
+			(
+				Tutor
+				Course
+				Status
+			)
+			sort by
+			(
+				Status ascending
+			)
+			custom actions
+			(
+				"Cancel"
+				(
+	  			workflow = Cancel_Tutoring_request
+				condition = (Status == "Requested")
+				)
+			)
+			conditional formatting
+			(
+				"Requested Formatting"
+				{
+				condition = (Status == "Requested")
+				fields = [Status]
+				format = "color:#3599db;background-color:#ffffff;"
+				}
+				"Approved Formatting"
+				{
+				condition = (Status == "Approved")
+				fields = [Status]
+				format = "color:#19bc9f;"
+				}
+				"Rejected Formatting"
+				{
+				condition = (Status == "Rejected")
+				fields = [Status]
+				format = "color:#e64d3b;"
+				}
+			)
+		}
+		list My_Courses_Tutor
+		{
+			displayName = "My Courses"
+			show all rows from Add_Course  [Select_Tutor.Email == zoho.loginuserid]  
+			(
+				Seats_Remaining as "Seats Remaining"
+				Status
+				Select_Tutor as "Select Tutor"
+				Students
+				Course_Type as "Course Type"
+				Course_Summary as "Course Summary"
+				End_Date as "End Date"
+				Start_Date as "Start Date"
+				Category
+				Course_Code as "Course Code"
+				Course_Name as "Course Name"
+				Amount
+				Participants
+				Maximum_participants_allowed as "Maximum participants allowed"
+				custom action "Course Materials"
+				(
+	  			workflow = Course_Materials_Tutor
+				show action in edit record menu = true
+				column header = "Course Materials"
+				)
+			)
+			group by
+			(
+				Status ascending
+			)
+		}
+		list My_Profile_Tutor
+		{
+			displayName = "My Profile"
+			show all rows from Enroll_User  [Email == zoho.loginuserid && Enroll_as == "Tutor"]  
+			(
+				Name 
+				Address 
+	 			(
+	      			enable = Show_As_Text
+	 			)
+				Gender
+				Status
+				Age
+				Date_of_Birth as "Date of Birth"
+				Employment_Status as "Employment Status"
+				Education_Level as "Education Level"
+				About_Me as "About Me"
+				Skill_Sets as "Skill Sets"
+				Email
+				Phone_Number as "Phone Number"
+				Photo
+				User_ID as "User ID"
+				Enroll_as as "Enrolled as"
+			)
+		}
+		list Pending_Requests
+		{
+			displayName = "Pending Requests"
+			show all rows from Tutoring_Request  [Status == "Requested"]  
+			(
+				Status
+				Tutor
+				custom action "Approve"
+				(
+	  			workflow = Approve_tutor
+				column header = "Approve"
+				)
+				Course
+				custom action "Reject"
+				(
+	  			workflow = Reject_Tutor
+				column header = "Reject"
+				)
+			)
+		}
+		list All_Requests
+		{
+			displayName = "All Requests"
+			show all rows from Tutoring_Request    
+			(
+				Tutor
+				Course
+				Status
+				Tutor_Email as "Tutor Email"
+			)
+			conditional formatting
+			(
+				"Requested Formatting"
+				{
+				condition = (Status == "Requested")
+				fields = [Status]
+				format = "color:#3599db;background-color:#ffffff;"
+				}
+				"Approved Formatting"
+				{
+				condition = (Status == "Approved")
+				fields = [Status]
+				format = "color:#19bc9f;"
+				}
+				"Rejected Formatting"
+				{
+				condition = (Status == "Rejected")
+				fields = [Status]
+				format = "color:#e64d3b;"
+				}
+			)
+		}
+		list All_Payments
+		{
+			displayName = "All Payments"
+			show all rows from Course_Payment    
+			(
+				Course
+				Student
+				Amount
+			)
+		}
+		list Course_Categories
+		{
+			displayName = "Course Categories"
+			show all rows from Add_Course_Category    
+			(
+				Category_Name as "Category Name"
+			)
+		}
+		custom Active_Tutors
+		{
+			displayName = "Active Tutors"
+			show all rows from Enroll_User  [Enroll_as == "Tutor" && Status == "Active"]  
+			(
+				Name 
+				Age
+				Date_of_Birth as "Date of Birth"
+				Address 
+	 			(
+	      			enable = Show_As_Text
+	 			)
+				About_Me as "About Me"
+				Skill_Sets as "Skill Sets"
+				Education_Level as "Education Level"
+				Employment_Status as "Employment Status"
+				Gender
+				Email
+				Phone_Number as "Phone Number"
+				Photo
+				User_ID as "User ID"
+			)
+			custom actions
+			(
+				"Mark Inactive"
+				(
+	  			workflow = Mark_Tutor_as_Inactive
+				show action in view header = true
+				)
+			)
+		}
+		custom Active_Students
+		{
+			displayName = "Active Students"
+			show all rows from Enroll_User  [Enroll_as == "Student" && Status == "Active"]  
+			(
+				Name 
+				Age
+				Date_of_Birth as "Date of Birth"
+				Address 
+	 			(
+	      			enable = Show_As_Text
+	 			)
+				About_Me as "About Me"
+				Skill_Sets as "Skill Sets"
+				Employment_Status as "Employment Status"
+				Education_Level as "Education Level"
+				Gender
+				Email
+				Phone_Number as "Phone Number"
+				Photo
+				User_ID as "User ID"
+			)
+			custom actions
+			(
+				"Mark Inactive"
+				(
+	  			workflow = Mark_Student_as_Inactive
+				show action in view header = true
+				)
+			)
+		}
+		custom All_Users
+		{
+			displayName = "All Users"
+			show all rows from Enroll_User    
+			(
+				Name 
+				Address 
+	 			(
+	      			enable = Show_As_Text
+	 			)
+				Status
+				Age
+				Date_of_Birth as "Date of Birth"
+				About_Me as "About Me"
+				Employment_Status as "Employment Status"
+				Education_Level as "Education Level"
+				Skill_Sets as "Skill Sets"
+				User_ID as "User ID"
+				Gender
+				Enroll_as as "Enrolled as"
+				Photo
+				Email
+				Phone_Number as "Phone Number"
+			)
+			filters
+			(
+				Enroll_as
+			)
+			group by
+			(
+				Status ascending
+			)
+			custom actions
+			(
+				"Custom Action"
+				(
+	  			workflow = Mark_User_as_Inactive
+				condition = (Status == "Active")
+				)
+				"Mark Active"
+				(
+	  			workflow = Mark_User_as_Active
+				show action in view header = true
+				condition = (Status == "Inactive")
+				)
+			)
+			conditional formatting
+			(
+				"Inactive Formatting"
+				{
+				condition = (Status == "Inactive")
+				fields = [Status]
+				format = "color:#919191;background-color:#ffffff;"
+				}
+				"Active Formatting"
+				{
+				condition = (Status == "Active")
+				fields = [Status]
+				format = "color:#19bc9f;background-color:#ffffff;"
+				}
+			)
+		}
+		default list AI_Learning_Assistant_Report
+		{
+			displayName = "AI_Learning_Assistant Report"
+			show all rows from AI_Learning_Assistant    
+			(
+				Question
+				AI_Response
+			)
+		}
+		pivotchart Course_wise_Students
+		{
+			displayname = "Course-wise Students"
+			based on Autoview_1535979350899_Add_Course
+				show all rows from Add_Course
+				(
+			No_of_Students  as "No of Students"
+			Course_Name  as "Course Name"
+			Category.Category_Name  as "Category Name"
+			Category 
+			Course_Code  as "Course Code"
+			End_Date  as "End Date"
+			Start_Date  as "Start Date"
+			Amount 
+			Course_Type  as "Course Type"
+			Maximum_participants_allowed  as "Maximum participants allowed"
+			Participants 
+			Added_Time  as "Added Time"
+			Status 
+			Seats_Remaining  as "Seats Remaining"
+			Select_Tutor  as "Select Tutor"
+			Tutor1  as "Tutor"
+				)
+		}
+		pivotchart Course_wise_Payments
+		{
+			displayname = "Course-wise Payments"
+			based on Autoview_1535978690580_Course_Payment
+				show all rows from Course_Payment
+				(
+			Amount 
+			Student 
+			Added_Time  as "Added Time"
+			Course 
+				)
+		}
+		pivotchart Monthly_Payments
+		{
+			displayname = "Monthly Payments"
+			based on Autoview_1535978690580_Course_Payment
+				show all rows from Course_Payment
+				(
+			Amount 
+			Student 
+			Added_Time  as "Added Time"
+			Course 
+				)
+		}
+		pivotchart Monthly_Joinees
+		{
+			displayname = "Monthly Joinees"
+			based on Autoview_1535979817202_Enroll_User
+				show all rows from Enroll_User
+				(
+			User_ID  as "User ID"
+			Name 
+ 			(
+ 				first_name as "Name"
+ 				prefix as "Name.Prefix"
+ 				last_name as "Name.Last Name"
+ 				suffix as "Name.Suffix"
+ 			)
+			Enroll_as  as "Enroll as"
+			Email 
+			Gender 
+			Phone_Number  as "Phone Number"
+			Age 
+			Date_of_Birth  as "Date of Birth"
+			Address 
+ 			(
+ 				address_line_1 as "Address"
+ 				address_line_2 as "Address.Address Line 2"
+ 				district_city as "Address.City / District"
+ 				state_province as "Address.State / Province"
+ 				postal_Code as "Address.Postal Code"
+ 				country as "Address.Country"
+ 				latitude as "Address.latitude"
+ 				longitude as "Address.longitude"
+ 			)
+			Added_Time  as "Added Time"
+			Education_Level  as "Education Level"
+			Employment_Status  as "Employment Status"
+			Skill_Sets  as "Skill Sets"
+			About_Me  as "About Me"
+			Status 
+				)
+		}
+	}
+	pages
+	{
+		page Dashboard
+		{
+			displayname = "Dashboard"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\twebDeviceConfig='{\"layout\":{\"displayType\":\"card\",\"design\":\"fluid\",\"style\":\"padding-right:0px;padding-top:0px;padding-bottom:0px;padding-left:0px;\"}}'\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='25%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\n\ttitle = 'Course-wise Students'\n\t\n\t\ttitleColor = '#222326'\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'Course_wise_Students'\n\t\n\t\tiszreport = 'true'\n\theightType = 'custom'\n\theightValue = '500'\n/>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='50px'\n>\n\t<pc \n\t\tbgColor = '#FAFAFA'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<text \n\n\tmarginLeft = '20px'\n\tmarginRight = '20px' \n\tcolor = '#2D2D2D'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Active Students'\n>\n</text>\n\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Active_Students'\n\t\ttarget = 'new-window'\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\n\tcolor = '#FFFFFF'\n\tbgColor = '#117ED2'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'education-hat'\n\tsize = '32px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n/>\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '5px'\n\tcolor = '#117ED2'\n\tsize = '33px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t\tcriteria = 'Enroll_as == &quot;Student&quot; &amp;&amp; Status == &quot;Active&quot;'\n\t  value = 'thisapp.Enroll_User.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='50px'\n>\n\t<pc \n\t\tbgColor = '#FAFAFA'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<text \n\n\tmarginLeft = '20px'\n\tmarginRight = '20px' \n\tcolor = '#2D2D2D'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Total Courses'\n>\n</text>\n\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'All_Courses'\n\t\ttarget = 'new-window'\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\n\tcolor = '#FFFFFF'\n\tbgColor = '#117ED2'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'files-book-08'\n\tsize = '32px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n/>\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '5px'\n\tcolor = '#117ED2'\n\tsize = '33px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t  value = 'thisapp.Add_Course.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='50px'\n>\n\t<pc \n\t\tbgColor = '#FAFAFA'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<text \n\n\tmarginLeft = '20px'\n\tmarginRight = '20px' \n\tcolor = '#2D2D2D'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Active Tutors'\n>\n</text>\n\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Active_Tutors'\n\t\ttarget = 'new-window'\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\n\tcolor = '#FFFFFF'\n\tbgColor = '#117ED2'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'users-2-a-edit'\n\tsize = '32px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n/>\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '5px'\n\tcolor = '#117ED2'\n\tsize = '33px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t\tcriteria = 'Enroll_as == &quot;Tutor&quot; &amp;&amp; Status == &quot;Active&quot;'\n\t  value = 'thisapp.Enroll_User.ID.count'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\n\t\twidth = '100%'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='50px'\n>\n\t<pc \n\t\tbgColor = '#FAFAFA'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<text \n\n\tmarginLeft = '20px'\n\tmarginRight = '20px' \n\tcolor = '#2D2D2D'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Total Payments'\n>\n</text>\n\n</pc>\n</pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'All_Payments'\n\t\ttarget = 'new-window'\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\n\tcolor = '#FFFFFF'\n\tbgColor = '#117ED2'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'business-money-bag'\n\tsize = '32px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n/>\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '5px'\n\tcolor = '#117ED2'\n\tsize = '33px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t  value = 'thisapp.Course_Payment.Amount.sum'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<report \n\telementName='Report 1'\n\n\t\n\ttitle = 'Course-wise Payments'\n\t\n\t\ttitleColor = '#222326'\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'Course_wise_Payments'\n\t\n\t\tiszreport = 'true'\n\theightType = 'custom'\n\theightValue = '500'\n/>\n</column>\n</row><row>\n\t<column\n   \t\t width='66%'\n   \t>\n\t<report \n\telementName='Report 2'\n\n\t\n\ttitle = 'Monthly Payments'\n\t\n\t\ttitleColor = '#222326'\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'Monthly_Payments'\n\t\n\t\tiszreport = 'true'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column><column\n   \t\t width='34%'\n   \t>\n\t<report \n\telementName='Report 3'\n\n\t\n\ttitle = 'Monthly Joinees (Top 5)'\n\t\n\t\ttitleColor = '#222326'\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'Monthly_Joinees'\n\t\n\t\tiszreport = 'true'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<dspZml id='zml_snippet' elementName='ZML Snippet'\n>\n\t<![CDATA[htmlpage zml_snippet()\ncontent\n&lt;%{\n\t%&gt;\n&lt;panel&gt;\n&lt;%\n\tif(Add_Course.count() == 0)\n\t{\n\t\topenUrl(&quot;#Form:Add_Course&quot;,&quot;same window&quot;);\n\t}\n\t%&gt;\n&lt;/panel&gt;\n&lt;%\n\n}%&gt;]]>\n</dspZml>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+		page All_Course_Materials_Page
+		{
+			displayname = "All Course Materials"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'All_Course_Materials'\n\t\n\t\tiszreport = 'false'\n\t\t\t\t\tzc_EditBulkRec = 'false'\n\t\t\t\t\tzc_BulkDelete = 'false'\n\t\t\t\t\tzc_BulkDuplicate = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+	chats
+	{
+		chat Course_Planner_AI_Assistant
+		{
+			display name = "Course Planner AI Assistant"
+			access level = read_write
+			instructions
+			(
+				value = "You are a Course Planner AI Learning Assistant.\nYour primary goal is to help students understand course topics and explain concepts using simple language.\nYou must rely strictly on the course descriptions, topic details, and tutor notes available within the application's data modules.\nDo not invent course information, hallucinate details, or reveal private student data.\nIf information is not found in the application data, state that you cannot find it rather than making it up.\nFocus on educational support and clarity."
+			)
+			personalization
+			(
+				welcome message = "Hello! I am your Course Planner AI Learning Assistant. I can help you understand course topics, explain concepts in simple language, and answer questions based on the course descriptions, topic details, and tutor notes available in this application."
+			)
+			forms
+			(
+				Add_Topic
+				Add_Course_Material
+				Add_Course
+			)
+		}
+	}
+
+
+		 functions
+		 {
+			 Deluge
+			 {
+				 void Add_AI_Agent_Microservice()
+                 {
+                 	// Define agent configuration details
+                 	agentName = "AI Learning Assistant";
+                 	knowledgeBase = "Course descriptions, topic details, and tutor notes";
+                 	restrictions = "Do not invent course information or disclose private student data";
+                 	status = "Active";
+                 	availability = "Available to students";
+                 	// Construct the configuration message
+                 	configMessage = "Configuration: Knowledge Base = " + knowledgeBase + "; Restrictions = " + restrictions + "; Status = " + status + "; Availability = " + availability;
+                 	// Insert the new agent record into the AI_Learning_Assistant form
+                 	// Note: This form currently stores Question/AI_Response pairs. 
+                 	// If a dedicated 'Agent Registry' form exists, use that instead.
+                 	// For now, we create a configuration record or log entry.
+                 	response = insert into AI_Learning_Assistant
+                 	[
+                 		Question="Agent Registration: " + agentName
+                 		AI_Response=configMessage
+                 		Added_User=zoho.loginuser
+                 	];
+                 	// Access the ID directly from the response map without chaining
+                 	recordID = response.get("ID");
+                 	info "Agent registered successfully with ID: " + recordID;
+                 }
+			 }
+		 }
+
+
+		workflow
+		{
+		form
+		{
+			Run_Scripts_On_Always as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Add_Course
+				on add or edit
+				{
+					actions 
+					{
+						hide Status,Tutoring_Requests;
+					on user input of Start_Date
+					(
+						//Validating start and end date
+										if(input.Start_Date > input.End_Date)
+										{
+											alert "Start date must be less than 'End Date'!";
+										}
+					)
+					on user input of End_Date
+					(
+						//Validating start and end date
+										if(input.End_Date < input.Start_Date)
+										{
+											alert "End date must be greater than 'Start Date'!";
+										}
+					)
+					on validate
+					(
+						//Autofill status value based on given date
+										if(input.Start_Date <= zoho.currentdate && input.End_Date > zoho.currentdate)
+										{
+											input.Status = "Ongoing";
+										}
+										else if(input.Start_Date > zoho.currentdate)
+										{
+											input.Status = "Upcoming";
+										}
+										else if(input.Start_Date < zoho.currentdate && input.End_Date < zoho.currentdate)
+										{
+											input.Status = "Completed";
+										}
+										//Validating start and end date
+										if(input.Start_Date > input.End_Date)
+										{
+											alert "Please specify the valid dates!";
+											cancel submit;
+										}
+					)
+					}
+					actions  (Course_Type == "Free")
+					{
+						hide Amount;
+					on validate
+					(
+						//Clearing user inputs in case of 'Free' course 
+										input.Amount = null;
+					)
+					}
+					actions  (Participants == "Unlimited")
+					{
+						hide Maximum_participants_allowed;
+					on validate
+					(
+						//Clearing user inputs in case of 'Unlimited' participants 
+										input.Maximum_participants_allowed = null;
+										input.Seats_Remaining = null;
+					)
+					}
+					actions  (Course_Type == "Paid")
+					{
+					on validate
+					(
+						//Mandate amount field in case of paid course
+										if(input.Amount <= 0 || Amount == null)
+										{
+											alert "Please enter valid amount for paid course!";
+											cancel submit;
+										}
+					)
+					}
+					actions  (Participants == "Limited")
+					{
+					on validate
+					(
+						//Mandate maximum participants field in case of limitted participants
+										if(input.Maximum_participants_allowed <= 0 || input.Maximum_participants_allowed == null)
+										{
+											alert "Please enter valid number for 'Maximum participants allowed'!";
+											cancel submit;
+										}
+										else
+										{
+											//Updating remaining seats for the course
+											input.Seats_Remaining = input.Maximum_participants_allowed - input.Students.size();
+										}
+					)
+					}
+					actions  (Tutor1 == "Assign Now")
+					{
+						show Select_Tutor;
+					}
+				}
+			}
+			Run_Scripts_while_adding_ as "Run Scripts - while adding a record"
+			{
+				type =  form
+				form = Add_Course
+				on add
+				{
+					actions 
+					{
+						hide Students;
+					on success
+					(
+						if(Add_Course.count() == 1)
+										{
+											openUrl("#Form:Add_Course_Material?Course=" + input.ID,"same window");
+										}
+					)
+					}
+				}
+			}
+			Run_Scripts_On_Always1 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Enroll_User
+				on add or edit
+				{
+					actions 
+					{
+						hide Status;
+					on user input of Date_of_Birth
+					(
+						if(input.Date_of_Birth != null && input.Date_of_Birth < zoho.currentdate)
+										{
+											input.Age = yearsBetween(input.Date_of_Birth,zoho.currentdate);
+										}
+					)
+					}
+					actions  (Date_of_Birth is not null && Date_of_Birth == zoho.currentdate || Date_of_Birth > zoho.currentdate)
+					{
+					on user input of Date_of_Birth
+					(
+						alert "Please enter valid 'Date of Birth'!";
+										input.Age = 0;
+					)
+					on validate
+					(
+						alert "Please enter valid 'Date of Birth'!";
+										cancel submit;
+					)
+					}
+				}
+			}
+			Run_Scripts_On_Click_of_O as "Run Scripts - On Click of 'Ok' button"
+			{
+				type =  form
+				form = Course_Subscription
+				button = Ok
+				on click
+				{
+					actions 
+					{
+					on click
+					(
+						courseRecord = Add_Course[ID == input.Course];
+										studentId = Enroll_User[Email == zoho.loginuserid].ID;
+										if(courseRecord.Course_Type == "Free")
+										{
+											//Add student to the corresponding course
+											studentRecord = Enroll_User[Email == zoho.loginuserid];
+											courseRecord = Add_Course[ID == input.Course];
+											studentsList = courseRecord.Students;
+											studentsList.add(studentRecord.ID);
+											courseRecord.Students=studentsList;
+											openUrl("#Script:page.refresh","same window");
+										}
+										else if(courseRecord.Course_Type == "Paid")
+										{
+											openUrl("#Form:Course_Payment?Course=" + input.Course + "&Student=" + studentId + "&Amount=" + courseRecord.Amount,"same window");
+										}
+					)
+					}
+				}
+			}
+			Run_Scripts_while_adding_1 as "Run Scripts - while adding Record"
+			{
+				type =  form
+				form = Course_Subscription
+				on add
+				{
+					actions 
+					{
+						hide Course;
+					}
+				}
+			}
+			Run_Scripts_On_Click_of_C as "Run Scripts - On Click of 'Cancel' button"
+			{
+				type =  form
+				form = Course_Subscription
+				button = Cancel
+				on click
+				{
+					actions 
+					{
+					on click
+					(
+						openUrl("#Script:page.refresh","same window");
+					)
+					}
+				}
+			}
+			Share_and_send_notificati as "Share and send notification"
+			{
+				type =  form
+				form = Enroll_User
+				on add
+				{
+					actions 
+					{
+					on success
+					(
+						/* Assign the user to the selected application profile */
+										thisapp.permissions.assignUserInProfile(input.Email,input.Enroll_as);
+										/* Send a confirmation email based on the selected role */
+										if(input.Enroll_as == "Tutor")
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :input.Email
+												subject :"Tutor Enrollment - Confirmation"
+												message :"Greetings,<br><br>" + "Thanks for joining us!<br><br>" + "We believe that you will provide quality education to students without any hassle.<br><br>" + "Click <a href=\"https://app.zohocreator.in" + zoho.appuri + "\" target=\"_blank\">here</a> to access your portal.<br><br>" + "Feel free to contact us if you have any queries.<br><br>" + "Regards,<br>" + zoho.adminuser
+											]
+										}
+										else if(input.Enroll_as == "Student")
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :input.Email
+												subject :"Student Enrollment - Confirmation"
+												message :"Greetings,<br><br>" + "Thanks for choosing us! We would like to offer you the best courses in a better way every time.<br><br>" + "Click <a href=\"https://app.zohocreator.in" + zoho.appuri + "\" target=\"_blank\">here</a> to access your learning portal.<br><br>" + "Learn from anywhere, anytime!<br><br>" + "Regards,<br>" + zoho.adminuser
+											]
+										}
+					)
+					}
+				}
+			}
+			Run_Scripts_while_adding_2 as "Run Scripts - while adding Record"
+			{
+				type =  form
+				form = Tutoring_Approval_Confirmation
+				on add
+				{
+					actions 
+					{
+						hide Tutor_Request;
+					}
+				}
+			}
+			Run_Scripts_On_Click_of_Y as "Run Scripts - On Click of 'Yes' button"
+			{
+				type =  form
+				form = Tutoring_Approval_Confirmation
+				button = Yes
+				on click
+				{
+					actions 
+					{
+					on click
+					(
+						Status = "Approved";
+										requestRec = Tutoring_Request[ID == input.Tutor_Request];
+										courseRecord = Add_Course[ID == requestRec.Course];
+										courseRecord.Select_Tutor=requestRec.Tutor;
+										tutorRec = Enroll_User[ID == requestRec.Tutor];
+										sendmail
+										[
+											from :zoho.adminuserid
+											to :tutorRec.Email
+											subject :"Tutoring Request Approval Notification"
+											message :"Hi " + tutorRec.Name + ",<div><br></div><div>Your tutoring request for " + courseRecord.Course_Name + " has been approved.&nbsp;</div><div><br></div><div>Click <a href=\"" + "https://app.zohocreator.in" + zoho.appuri + "#Report:Tutoring_Requests_Tutor\"" + " target=\"_blank\">here</a> to view the details.</div><div><br></div><div>Regards,</div><div>" + zoho.adminuser + "</div>"
+										]
+										allRequests = Tutoring_Request[Course == requestRec.Course && Status == "Requested" && ID != input.Tutor_Request];
+										for each  request in allRequests
+										{
+											tutorRec = Enroll_User[ID == request.Tutor];
+											request.Status="Rejected";
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :tutorRec.Email
+												subject :"Tutoring Request Rejection Notification"
+												message :"Hi " + tutorRec.Name + ",<div><br></div><div>We regret to inform you that your request for tutoring '" + courseRecord.Course_Name + "' has been rejected by admin due to some valid reasons.</div><div><br></div><div>Click <a href='https://app.zohocreator.in" + zoho.appuri + "#Report:Tutoring_Requests_Tutor' target='_blank'>here</a> to view the status.</div><div><br></div><div>Regards,</div><div>" + zoho.adminuser + "</div><div><br></div>"
+											]
+										}
+										openUrl("#Script:page.parent.refresh","same window");
+					)
+					}
+				}
+			}
+			Run_Scripts_On_click_of_N as "Run Scripts - On click of 'No' button"
+			{
+				type =  form
+				form = Tutoring_Approval_Confirmation
+				button = No
+				on click
+				{
+					actions 
+					{
+					on click
+					(
+						openUrl("#Script:page.parent.refresh","same window");
+					)
+					}
+				}
+			}
+			Run_Scripts_while_editing as "Run Scripts - while editing record"
+			{
+				type =  form
+				form = Enroll_User
+				on edit
+				{
+					actions 
+					{
+					on validate
+					(
+						if(input.Email != old.Email || input.Enroll_as != old.Enroll_as)
+										{
+											if(input.Email != old.Email)
+											{
+												thisapp.permissions.deleteuser(old.Email);
+											}
+											thisapp.permissions.assignUserInProfile(input.Email,input.Enroll_as);
+											if(input.Enroll_as == "Tutor")
+											{
+												sendmail
+												[
+													from :zoho.adminuserid
+													to :input.Email
+													subject :"Tutor Enrollment - Confirmation"
+													message :"Greetings,<br><br>Thanks for joining us!<br><br>We believe that you will provide quality education to students without any hassle.<br><br>Click <a href='https://app.zohocreator.in" + zoho.appuri + "'>here</a> to access your portal.<br><br>Feel free to contact us if you have any queries.<br><br>Regards,<br>" + zoho.adminuser
+												]
+											}
+											else if(input.Enroll_as == "Student")
+											{
+												sendmail
+												[
+													from :zoho.adminuserid
+													to :input.Email
+													subject :"Student Enrollment - Confirmation"
+													message :"Greetings,<br><br>Thanks for choosing us! We would like to offer you the best courses in a better way every time.<br><br>Click <a href='https://app.zohocreator.in" + zoho.appuri + "'>here</a> to access your learning portal.<br><br>Learn from anywhere, anytime!<br><br>Regards,<br>" + zoho.adminuser
+												]
+											}
+										}
+					)
+					}
+				}
+			}
+			Run_Scripts_while_deletin as "Run Scripts - while deleting Record"
+			{
+				type =  form
+				form = Enroll_User
+				on delete
+				{
+					actions 
+					{
+					on validate
+					(
+						thisapp.permissions.deleteuser(input.Email);
+					)
+					}
+				}
+			}
+			Run_Scripts_On_Always2 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Add_Course_Material
+				on add or edit
+				{
+					actions 
+					{
+					on load
+					(
+						hide Topics.Course;
+					)
+					on validate
+					(
+						//Assign Course to all topics row
+										for each  topic in input.Topics
+										{
+											topic.Course=input.Course;
+										}
+					)
+					}
+				}
+			}
+			Run_scripts_while_adding_3 as "Run scripts- while adding a record"
+			{
+				type =  form
+				form = Course_Payment
+				on add
+				{
+					actions 
+					{
+					on success
+					(
+						studentRecord = Enroll_User[Email == zoho.loginuserid];
+										courseRecord = Add_Course[ID == input.Course];
+										studentsList = courseRecord.Students;
+										studentsList.add(studentRecord.ID);
+										courseRecord.Students=studentsList;
+										openUrl("#Script:page.refresh","same window");
+					)
+					}
+				}
+			}
+			Run_scripts_while_adding_4 as "Run scripts- while adding a record"
+			{
+				type =  form
+				form = Course_Payment
+				on add
+				{
+					actions 
+					{
+					on load
+					(
+						studentRecord = Enroll_User[Email == zoho.loginuserid].ID;
+										courseDetail = Add_Course[ID == input.Course].Students;
+										isTrue = courseDetail.contains(studentRecord);
+										if(isTrue)
+										{
+											alert "You have already registered for this course";
+										}
+					)
+					}
+				}
+			}
+			Run_scripts_while_adding_5 as "Run scripts- while adding a record"
+			{
+				type =  form
+				form = Course_Subscription
+				on add
+				{
+					actions 
+					{
+					on load
+					(
+						studentRecord = Enroll_User[Email == zoho.loginuserid].ID;
+										courseDetail = Add_Course[ID == input.Course].Students;
+										isTrue = courseDetail.contains(studentRecord);
+										if(isTrue)
+										{
+											alert "You have already registered for this course";
+										}
+					)
+					}
+				}
+			}
+			Generate_AI_Response as "Generate_AI_Response"
+			{
+				type =  form
+				form = AI_Learning_Assistant
+				on add
+				{
+					actions 
+					{
+					on success
+					(
+						questionText = input.Question;
+										responseText = "";
+										if(questionText != null && questionText.trim() != "")
+										{
+											requestBody = Map();
+											messagesList = List();
+											systemMessage = Map();
+											systemMessage.put("role","system");
+											systemMessage.put("content","You are SkillBridge, a helpful course learning assistant. Explain topics in simple language and do not invent course information.");
+											messagesList.add(systemMessage);
+											userMessage = Map();
+											userMessage.put("role","user");
+											userMessage.put("content",questionText);
+											messagesList.add(userMessage);
+											requestBody.put("model","gpt-4o-mini");
+											requestBody.put("messages",messagesList);
+											apiResponse = invokeurl
+											[
+												url :"https://api.openai.com/v1/chat/completions"
+												type :POST
+												body:requestBody.toString()
+												headers:{"Content-Type":"application/json","Authorization":"Bearer sk-...GX8A"}
+											];
+											if(apiResponse.get("choices") != null)
+											{
+												responseText = apiResponse.get("choices").get(0).get("message").get("content");
+											}
+											else
+											{
+												responseText = "Unable to generate an answer. Please check the API configuration.";
+											}
+											input.AI_Response = responseText;
+										}
+					)
+					}
+				}
+			}
+		}
+
+		schedule
+		{
+			Change_status_on_start_of as "Change_status_on_start_of"
+			{
+				type =  schedule
+				form = Add_Course
+					status = inactive
+				start = Start_Date at "16:00:00"
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						//CHange status
+										input.Status = "Ongoing";
+					)
+					}
+				}
+			}
+			Change_status_on_completi as "Change_status_on_completi"
+			{
+				type =  schedule
+				form = Add_Course
+					status = inactive
+				start = after 1 days from End_Date at "16:00:00"
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						//CHange status
+										input.Status = "Completed";
+					)
+					}
+				}
+			}
+		}
+
+
+
+
+		functions
+		{
+			Mark_Tutor_as_Inactive as "Mark Tutor as Inactive"
+			{
+				type =  functions
+				form = Enroll_User
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						input.Status = "Inactive";
+					)
+					}
+				}
+			}
+			Mark_Student_as_Inactive as "Mark Student as Inactive"
+			{
+				type =  functions
+				form = Enroll_User
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						input.Status = "Inactive";
+					)
+					}
+				}
+			}
+			Mark_User_as_Inactive as "Mark User as Inactive"
+			{
+				type =  functions
+				form = Enroll_User
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						input.Status = "Inactive";
+					)
+					}
+				}
+			}
+			Mark_User_as_Active as "Mark User as Active"
+			{
+				type =  functions
+				form = Enroll_User
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						input.Status = "Active";
+					)
+					}
+				}
+			}
+			View_Course_Materials as "View Course Materials"
+			{
+				type =  functions
+				form = Add_Course
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Show course materials
+										openUrl("https://app.zohocreator.in" + zoho.appuri + "#Report:Course_Page?Course=" + input.Course_Name,"new window");
+					)
+					}
+				}
+			}
+			Course_Subscription as "Course Subscription"
+			{
+				type =  functions
+				form = Add_Course
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Subscription confirmation message in case of free course
+										studentRecord = Enroll_User[Email == zoho.loginuserid].ID;
+										if(input.Course_Type == "Free")
+										{
+											openUrl("#Form:Course_Subscription?Course=" + input.ID,"popup window");
+										}
+										//Proceed to payment in case of paid course
+										else if(Course_Type == "Paid")
+										{
+											openUrl("#Form:Course_Payment?Course=" + input.ID + "&Student=" + studentRecord + "&Amount=" + input.Amount,"popup window");
+										}
+					)
+					}
+				}
+			}
+			View_Course_Material as "View Course Material"
+			{
+				type =  functions
+				form = Add_Course
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Show course materials
+										openUrl("https://app.zohocreator.in" + zoho.appuri + "#Report:Course_Page?Course=" + input.Course_Name,"new window");
+					)
+					}
+				}
+			}
+			Tutor_this_course as "Tutor this course"
+			{
+				type =  functions
+				form = Add_Course
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Sending tutor request to admin
+										TutorID = Enroll_User[Email == zoho.loginuserid].ID;
+										insert into Tutoring_Request
+										[
+											Added_User=zoho.loginuser
+											Tutor=TutorID
+											Course=input.ID
+											Status="Requested"
+										]
+					)
+					}
+				}
+			}
+			Course_Materials_Tutor as "Course Materials - Tutor"
+			{
+				type =  functions
+				form = Add_Course
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Show course materials
+										openUrl("https://app.zohocreator.in" + zoho.appuri + "#Report:Course_Page?Course=" + input.Course_Name,"new window");
+					)
+					}
+				}
+			}
+			Approve_tutor as "Approve tutor"
+			{
+				type =  functions
+				form = Tutoring_Request
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Assign tutor to the requested course
+										if(Tutoring_Request[Course == input.Course && Status == "Requested"].count() > 1)
+										{
+											openUrl("#Form:Tutoring_Approval_Confirmation?Tutor_Request=" + input.ID + "&zc_Header=false","popup window");
+										}
+										else
+										{
+											input.Status = "Approved";
+											tutorRec = Enroll_User[ID == input.Tutor];
+											courseRecord = Add_Course[ID == input.Course];
+											courseRecord.Select_Tutor=input.Tutor;
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :tutorRec.Email
+												subject :"Tutoring Request Approval Notification"
+												message :"Hi " + tutorRec.Name + ",<div><br></div><div>Your tutoring request for " + courseRecord.Course_Name + " has been approved.&nbsp;</div><div><br></div><div>Click <a href=\"" + "https://app.zohocreator.in" + zoho.appuri + "#Report:Tutoring_Requests_Tutor\"" + " target=\"_blank\">here</a> to view the details.</div><div><br></div><div>Regards,</div><div>" + zoho.adminuser + "</div>"
+											]
+										}
+					)
+					}
+				}
+			}
+			Cancel_Tutoring_request as "Cancel Tutoring request"
+			{
+				type =  functions
+				form = Tutoring_Request
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Cancel tutoring request
+										input.Status = "Cancelled";
+					)
+					}
+				}
+			}
+			Reject_Tutor as "Reject Tutor"
+			{
+				type =  functions
+				form = Tutoring_Request
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Change status to 'Rejected' 
+										input.Status = "Rejected";
+					)
+					}
+				}
+			}
+			Subscribe as "Subscribe"
+			{
+				type =  functions
+				form = Add_Course
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						//Test Action
+										openUrl("#Form:Course_Subscription?Course=" + input.ID,"same window");
+					)
+					}
+				}
+			}
+		}
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+				ModulePermissions
+				{
+					Course_Subscription
+					{
+						allFieldsVisible= true 
+					}
+					Add_Topic
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							All_Topics={"View"}
+						}
+					}
+					Add_Course_Material
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							All_Course_Materials={"View"}
+							Course_Page={"View"}
+						}
+					}
+					Tutoring_Request
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Pending_Requests={"View"}
+							All_Requests={"View"}
+							Tutoring_Requests_Tutor={"View"}
+						}
+					}
+					Add_Course
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Course_wise_Students={"View"}
+							Open_Courses={"View"}
+							Ongoing_Courses={"View"}
+							Ongoing_Courses_Student={"View"}
+							All_Courses={"View"}
+							Completed_Courses={"View"}
+							Available_Courses_Student={"View"}
+							All_Courses_Student={"View"}
+							My_Courses_Tutor={"View"}
+							Upcoming_Courses={"View"}
+						}
+					}
+					Course_Payment
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							All_Payments={"View"}
+							My_Payments={"View"}
+							Course_wise_Payments={"View"}
+							Monthly_Payments={"View"}
+						}
+					}
+					Tutoring_Approval_Confirmation
+					{
+						allFieldsVisible= true 
+					}
+					Enroll_User
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Monthly_Joinees={"View"}
+							My_Profile_Tutor={"View"}
+							All_Users={"View"}
+							My_Profile_Student={"View"}
+							Active_Students={"View"}
+							Active_Tutors={"View"}
+						}
+					}
+					Add_Course_Category
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Course_Categories={"View"}
+						}
+					}
+					Dashboard
+					{
+						enabled = tab
+					}
+				}
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Tutor"
+			{
+				name = "Tutor"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Tutor Profile\n"
+				ModulePermissions
+				{
+					Course_Subscription
+					{
+						FieldPermissions
+						{
+							Confirmation_Message{visibility:true,readonly:false,allowdownload:false}
+							Course{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Add_Topic
+					{
+						FieldPermissions
+						{
+							Description{visibility:true,readonly:false,allowdownload:false}
+							Section1{visibility:true,readonly:false,allowdownload:false}
+							Content_File{visibility:true,readonly:false,allowdownload:true}
+							Tutor_Notes{visibility:true,readonly:false,allowdownload:false}
+							Topic_No{visibility:true,readonly:false,allowdownload:false}
+							Course{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:false,readonly:false,allowdownload:false}
+							Topic_Name{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Add_Course_Material
+					{
+						FieldPermissions
+						{
+							Topics{visibility:true,readonly:false,allowdownload:false}
+							Section_Name{visibility:true,readonly:false,allowdownload:false}
+							Course_Material_Files{visibility:false,readonly:false,allowdownload:false}
+							Section1{visibility:false,readonly:false,allowdownload:false}
+							Section_No{visibility:true,readonly:false,allowdownload:false}
+							Course{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Tutoring_Request
+					{
+						ReportPermissions
+						{
+							Tutoring_Requests_Tutor={"View"}
+						}
+						FieldPermissions
+						{
+							Tutor{visibility:true,readonly:false,allowdownload:false}
+							Status{visibility:true,readonly:false,allowdownload:false}
+							Tutor_Email{visibility:true,readonly:false,allowdownload:false}
+							Course{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Add_Course
+					{
+						ReportPermissions
+						{
+							Open_Courses={"View"}
+							My_Courses_Tutor={"View"}
+						}
+						FieldPermissions
+						{
+							Status{visibility:true,readonly:false,allowdownload:false}
+							Maximum_participants_allowed{visibility:true,readonly:false,allowdownload:false}
+							Category{visibility:true,readonly:false,allowdownload:false}
+							Tutoring_Requests{visibility:true,readonly:false,allowdownload:false}
+							Tutor1{visibility:true,readonly:false,allowdownload:false}
+							Amount{visibility:true,readonly:false,allowdownload:false}
+							Course_Name{visibility:true,readonly:false,allowdownload:false}
+							Participants{visibility:true,readonly:false,allowdownload:false}
+							End_Date{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:false,readonly:false,allowdownload:false}
+							No_of_Students{visibility:true,readonly:false,allowdownload:false}
+							Course_Code{visibility:true,readonly:false,allowdownload:false}
+							Course_Summary{visibility:true,readonly:false,allowdownload:false}
+							Students{visibility:true,readonly:false,allowdownload:false}
+							Seats_Remaining{visibility:true,readonly:false,allowdownload:false}
+							Course_Type{visibility:true,readonly:false,allowdownload:false}
+							Select_Tutor{visibility:true,readonly:false,allowdownload:false}
+							Start_Date{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Course_Payment
+					{
+						FieldPermissions
+						{
+							Student{visibility:true,readonly:false,allowdownload:false}
+							Course{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:true,readonly:false,allowdownload:false}
+							Amount{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Tutoring_Approval_Confirmation
+					{
+						FieldPermissions
+						{
+							Section{visibility:true,readonly:false,allowdownload:false}
+							Tutor_Request{visibility:true,readonly:false,allowdownload:false}
+							Confirmation_Text{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Enroll_User
+					{
+						ReportPermissions
+						{
+							My_Profile_Tutor={"View"}
+						}
+						FieldPermissions
+						{
+							Status{visibility:true,readonly:false,allowdownload:false}
+							Employment_Status{visibility:true,readonly:false,allowdownload:false}
+							Date_of_Birth{visibility:true,readonly:false,allowdownload:false}
+							Email{visibility:true,readonly:false,allowdownload:false}
+							Address{visibility:true,readonly:false,allowdownload:false}
+							Photo{visibility:true,readonly:false,allowdownload:true}
+							Phone_Number{visibility:true,readonly:false,allowdownload:false}
+							Education_Level{visibility:true,readonly:false,allowdownload:false}
+							Gender{visibility:true,readonly:false,allowdownload:false}
+							Skill_Sets{visibility:true,readonly:false,allowdownload:false}
+							Enroll_as{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:true,readonly:false,allowdownload:false}
+							Name{visibility:true,readonly:false,allowdownload:false}
+							About_Me{visibility:true,readonly:false,allowdownload:false}
+							User_ID{visibility:true,readonly:false,allowdownload:false}
+							Age{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+					Add_Course_Category
+					{
+						FieldPermissions
+						{
+							Category_Name{visibility:true,readonly:false,allowdownload:false}
+							Section{visibility:true,readonly:false,allowdownload:false}
+						}
+					}
+				}
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Student"
+			{
+				name = "Student"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Student Profile\n"
+				ModulePermissions
+				{
+					Course_Subscription
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+					}
+					Add_Topic
+					{
+						allFieldsVisible= true 
+					}
+					Add_Course_Material
+					{
+						allFieldsVisible= true 
+					}
+					Tutoring_Request
+					{
+						allFieldsVisible= true 
+					}
+					Add_Course
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Ongoing_Courses_Student={"View"}
+							Available_Courses_Student={"View"}
+							All_Courses_Student={"View"}
+						}
+					}
+					Course_Payment
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							My_Payments={"View"}
+						}
+					}
+					Tutoring_Approval_Confirmation
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+					}
+					Enroll_User
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							My_Profile_Student={"View"}
+						}
+					}
+					Add_Course_Category
+					{
+						allFieldsVisible= true 
+					}
+				}
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users.\n\n"
+				}
+			}
+	}
+
+	customize
+	{
+		icon
+		{
+			icon = "zc-ab-education-6"
+			background color = "blue"
+			foreground color = "#FFFFFF"
+		}
+	}
+
+	web
+	{
+		forms
+		{
+			form Add_Course
+			{
+				label placement = left
+			}
+			form Add_Course_Category
+			{
+				label placement = left
+			}
+			form Add_Course_Material
+			{
+				label placement = left
+			}
+			form Add_Topic
+			{
+				label placement = left
+			}
+			form AI_Learning_Assistant
+			{
+				label placement = left
+			}
+			form Course_Payment
+			{
+				label placement = left
+			}
+			form Course_Subscription
+			{
+				label placement = left
+			}
+			form Enroll_User
+			{
+				label placement = left
+			}
+			form Tutoring_Approval_Confirmation
+			{
+				label placement = left
+			}
+			form Tutoring_Request
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report Upcoming_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Participants
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Course Materials"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							"Course Materials"
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Status
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "Students"
+		     				related field = Students
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Course Materials"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Ongoing_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Participants
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Status
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "Students"
+		     				related field = Students
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Completed_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Participants
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Status
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "Students"
+		     				related field = Students
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Participants
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Status
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "Students"
+		     				related field = Students
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Topics
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Section1 as "Section"
+								Topic_No as "Topic No"
+								Topic_Name as "Topic Name"
+								Description
+								Tutor_Notes as "Tutor Notes"
+								Content_File as "Content File"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Topic_No as "Topic No"
+								Topic_Name as "Topic Name"
+								Content_File as "Content File"
+								Description
+								Tutor_Notes as "Tutor Notes"
+								Section1 as "Section"
+								Course
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Course_Page
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Section_No as "Section No"
+								Section_Name as "Section Name"
+								Topics.Topic_No as "Topics"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Section_No as "Section No"
+								Section_Name as "Section Name"
+							)
+						)
+						datablock3
+						(
+							layout type = -1
+		     				title = "Topics"
+		     				related field = Topics
+							fields
+							(
+								Topic_No as "Topic No"
+								Topic_Name as "Topic Name"
+								Description
+								Tutor_Notes as "Tutor Notes"
+								Content_File as "Content File"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Course_Materials
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Section_No as "Section No"
+								Section_Name as "Section Name"
+								Topics.Topic_No as "Topics"
+								Course_Material_Files as "Course Material Files"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Section_No as "Section No"
+								Section_Name as "Section Name"
+							)
+						)
+						datablock3
+						(
+							layout type = -1
+		     				title = "Topics"
+		     				related field = Topics
+							fields
+							(
+								Topic_No as "Topic No"
+								Topic_Name as "Topic Name"
+								Description
+								Tutor_Notes as "Tutor Notes"
+								Content_File as "Content File"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Available_Courses_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								"Subscribe"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Amount
+								Students
+								Students.Email as "Email"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Subscribe"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Subscribe"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Ongoing_Courses_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								"Course Material"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Amount
+								Category.Category_Name as "Category Name"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Course Material"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Courses_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Status
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Status
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Payments
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Profile_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = -2
+	     				recordsperrow = 2
+						datablock1
+						(
+							layout type = -2
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Enroll_as as "Enrolled as"
+								Name
+								Photo
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Enroll_as as "Enrolled as"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Open_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								"Tutor this course"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Participants
+								Select_Tutor as "Select Tutor"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Tutor this course"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Tutoring_Requests_Tutor
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Cancel"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							"Cancel"
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Cancel"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Courses_Tutor
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								"Course Materials"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Participants
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							"Course Materials"
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Status
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "Course Students"
+		     				related field = Students
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Profile_Tutor
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Enroll_as as "Enrolled as"
+								Name
+								Photo
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Enroll_as as "Enrolled as"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Pending_Requests
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								"Approve"
+								"Reject"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Approve"
+								"Reject"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Requests
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+								Tutor_Email as "Tutor Email"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Payments
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Student
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Student
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Course_Categories
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Category_Name as "Category Name"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Category_Name as "Category Name"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Active_Tutors
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 6
+						datablock1
+						(
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Mark Inactive"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							"Mark Inactive"
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Mark Inactive"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Active_Students
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 6
+						datablock1
+						(
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								Name
+								Gender
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Mark Inactive"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							"Mark Inactive"
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Mark Inactive"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Users
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 6
+						datablock1
+						(
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								Name
+								Enroll_as as "Enrolled as"
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Custom Action" as "Mark Inactive"
+							"Mark Active"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							"Custom Action" as "Mark Inactive"
+							"Mark Active"
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Enroll_as as "Enrolled as"
+								Status
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Custom Action" as "Mark Inactive"
+								"Custom Action" as "Mark Active"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report AI_Learning_Assistant_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Question
+								AI_Response
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Question
+								AI_Response
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			unused
+			{
+ 
+				report Course_wise_Students
+				{
+					icon = "business-chart-bar-32"
+				}
+				report All_Topics
+				{
+					icon = "design-bullet-list-67"
+				}
+				report Course_Page
+				{
+					icon = "design-bullet-list-67"
+				}
+ 
+				report Course_wise_Payments
+				{
+					icon = "business-chart-bar-32"
+				}
+ 
+				report Monthly_Payments
+				{
+					icon = "business-chart-bar-32"
+				}
+ 
+				report Monthly_Joinees
+				{
+					icon = "business-chart-bar-32"
+				}
+				form  Tutoring_Request
+				{
+					icon = "ui-1-bold-add"
+				}
+				form  Course_Payment
+				{
+					icon = "business-money-bag"
+				}
+				form  Add_Course_Category
+				{
+					icon = "location-pin-add"
+				}
+				form  Course_Subscription
+				{
+					icon = "ui-1-bold-add"
+				}
+				form  Tutoring_Approval_Confirmation
+				{
+					icon = "ui-1-bold-add"
+				}
+			}
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Course_View
+				{
+					displayname = "Dashboard"
+					icon = "ui-1-dashboard-half"
+					page Dashboard
+					{
+						icon = "design-window-paragraph"
+					}
+				}
+				section Add_Course
+				{
+					displayname = "Courses"
+					icon = "education-hat"
+					form  Add_Course
+					{
+						icon = "files-add"
+					}
+					report Upcoming_Courses
+					{
+						icon = "ui-2-hourglass"
+					}
+					report Ongoing_Courses
+					{
+						icon = "design-bullet-list-67"
+					}
+					report Completed_Courses
+					{
+						icon = "design-todo"
+					}
+					report All_Courses
+					{
+						icon = "education-books-46"
+					}
+				}
+				section Add_Course_Content
+				{
+					displayname = "Course Materials"
+					icon = "ui-1-settings"
+					form  Add_Course_Material
+					{
+						icon = "files-folder-add"
+					}
+					report All_Course_Materials
+					{
+						icon = "files-folder-16"
+					}
+					form  Add_Topic
+					{
+						icon = "files-add"
+					}
+				}
+				section New_Section1
+				{
+					displayname = "Student"
+					icon = "users-man-23"
+					report Available_Courses_Student
+					{
+						icon = "ui-1-check-square-11"
+					}
+					report Ongoing_Courses_Student
+					{
+						icon = "design-bullet-list-67"
+					}
+					report All_Courses_Student
+					{
+						icon = "design-book-open"
+					}
+					report My_Payments
+					{
+						icon = "business-money-11"
+					}
+					report My_Profile_Student
+					{
+						icon = "users-2-contacts-44"
+					}
+				}
+				section New_Section
+				{
+					displayname = "Tutor"
+					icon = "business-businessman-03"
+					report Open_Courses
+					{
+						icon = "ui-1-check-circle-07"
+					}
+					report Tutoring_Requests_Tutor
+					{
+						icon = "users-add-27"
+					}
+					report My_Courses_Tutor
+					{
+						icon = "education-book-open"
+					}
+					report My_Profile_Tutor
+					{
+						icon = "files-user"
+					}
+				}
+				section Tutor_Request
+				{
+					displayname = "Tutoring Requests"
+					icon = "shopping-list"
+					report Pending_Requests
+					{
+						icon = "ui-2-hourglass"
+					}
+					report All_Requests
+					{
+						icon = "shopping-receipt-list-43"
+					}
+				}
+				section Course_Payments
+				{
+					displayname = "Course Payments"
+					icon = "shopping-receipt"
+					report All_Payments
+					{
+						icon = "business-handout"
+					}
+				}
+				section Course_Categories
+				{
+					displayname = "Course Categories"
+					icon = "ui-1-preferences-circle"
+					report Course_Categories
+					{
+						icon = "business-hierarchy-53"
+					}
+				}
+				section Add_Tutor
+				{
+					displayname = "Users"
+					icon = "users-2-woman"
+					form  Enroll_User
+					{
+						icon = "users-add-27"
+					}
+					report Active_Tutors
+					{
+						icon = "users-2-a-check"
+					}
+					report Active_Students
+					{
+						icon = "users-2-b-check"
+					}
+					report All_Users
+					{
+						icon = "users-multiple-19"
+					}
+				}
+				section page
+				{
+					displayname = "Duplicated Copy of Course Subscription"
+					icon = "tech-desktop"
+				}
+				section Copy_of_Confirmation_Message
+				{
+					displayname = "Copy of Confirmation Message"
+					icon = "tech-desktop"
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section All_Course_Materials_Page_Section
+				{
+					displayname = "All Course Materials"
+					icon = "tech-desktop"
+					page All_Course_Materials_Page
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section AI_Learning_Assistant
+				{
+					displayname = "AI_Learning_Assistant"
+					icon = "tech-desktop"
+					form  AI_Learning_Assistant
+					{
+						icon = "tech-desktop"
+					}
+					report AI_Learning_Assistant_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section AI_Agents
+				{
+					displayname = "AI Agents"
+					icon = "ui-2-chat-content"
+					chat Course_Planner_AI_Assistant
+					{
+						icon = "education-award-55"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			layout
+			{
+				theme = "theme_10"
+			}
+			font = "lato"
+			color options
+			{
+				color = "11"
+			}
+			logo
+			{
+				preference = "app_icon"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form Add_Course
+			{
+				label placement = left
+			}
+			form Add_Course_Category
+			{
+				label placement = left
+			}
+			form Add_Course_Material
+			{
+				label placement = auto
+			}
+			form Add_Topic
+			{
+				label placement = auto
+			}
+			form Course_Payment
+			{
+				label placement = auto
+			}
+			form Course_Subscription
+			{
+				label placement = left
+			}
+			form Enroll_User
+			{
+				label placement = left
+			}
+			form Tutoring_Approval_Confirmation
+			{
+				label placement = left
+			}
+			form Tutoring_Request
+			{
+				label placement = auto
+			}
+		}
+		reports
+		{
+			report Upcoming_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Ongoing_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Completed_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Course_Materials
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 1
+						datablock1
+						(
+			 				display type = list
+							layout type = 1
+		     				title = "Overview"
+							fields
+							(
+								Section_No as "Section No"
+								Section_Name as "Section Name"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Section_No as "Section No"
+								Section_Name as "Section Name"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Available_Courses_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 12
+						datablock1
+						(
+			 				display type = list
+							layout type = 35
+		     				title = "Overview"
+							fields
+							(
+								Select_Tutor as "Select Tutor"
+								Category
+								Course_Type as "Course Type"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							"Subscribe"
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Subscribe"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Subscribe"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Ongoing_Courses_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Course Material"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Course Material"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Courses_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Status
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Payments
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Profile_Student
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 6
+						datablock1
+						(
+			 				display type = list
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Enroll_as as "Enrolled as"
+								Name
+								Photo
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Open_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							"Tutor this course"
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Tutor this course"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Tutor this course"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Tutoring_Requests_Tutor
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 1
+						datablock1
+						(
+			 				display type = list
+							layout type = 1
+		     				title = "Overview"
+							fields
+							(
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							"Cancel"
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Cancel"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Cancel"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report My_Profile_Tutor
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 6
+						datablock1
+						(
+			 				display type = list
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Enroll_as as "Enrolled as"
+								Name
+								Photo
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Pending_Requests
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+			 				display type = list
+							layout type = 1
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							"Approve"
+							"Reject"
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Approve"
+							"Reject"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Tutor
+								Course
+								Status
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Approve"
+								"Reject"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Active_Tutors
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 6
+						datablock1
+						(
+			 				display type = list
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							"Mark Inactive"
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Mark Inactive"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Mark Inactive"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Active_Students
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 6
+						datablock1
+						(
+			 				display type = list
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							"Mark Inactive"
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Mark Inactive"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Mark Inactive"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Users
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 6
+						datablock1
+						(
+			 				display type = list
+							layout type = 19
+		     				title = "Overview"
+							fields
+							(
+								Photo
+								Name
+								Enroll_as as "Enrolled as"
+								Email
+								Phone_Number as "Phone Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							"Custom Action" as "Mark Inactive"
+							"Mark Active"
+							Duplicate   	   
+							View Record   	   
+    					)
+						on left swipe
+						(
+							"Mark Active"
+							"Custom Action" as "Mark Inactive"
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								User_ID as "User ID"
+								Name
+								Enroll_as as "Enrolled as"
+								Status
+								Email
+								Phone_Number as "Phone Number"
+								Gender
+								Photo
+								Age
+								Date_of_Birth as "Date of Birth"
+								Address
+								Employment_Status as "Employment Status"
+								Education_Level as "Education Level"
+								About_Me as "About Me"
+								Skill_Sets as "Skill Sets"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								"Custom Action" as "Mark Inactive"
+								"Custom Action" as "Mark Active"
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			unused
+			{
+ 
+				report Course_wise_Students
+				{
+					icon = "business-chart-bar-32"
+				}
+				report All_Topics
+				{
+					icon = "design-bullet-list-67"
+				}
+				report Course_Page
+				{
+					icon = "design-bullet-list-67"
+				}
+ 
+				report Course_wise_Payments
+				{
+					icon = "business-chart-bar-32"
+				}
+ 
+				report Monthly_Payments
+				{
+					icon = "business-chart-bar-32"
+				}
+ 
+				report Monthly_Joinees
+				{
+					icon = "business-chart-bar-32"
+				}
+				form  Tutoring_Request
+				{
+					icon = "ui-1-bold-add"
+				}
+				form  Course_Payment
+				{
+					icon = "business-money-bag"
+				}
+				form  Add_Course_Category
+				{
+					icon = "location-pin-add"
+				}
+				form  Course_Subscription
+				{
+					icon = "tech-desktop"
+				}
+				form  Tutoring_Approval_Confirmation
+				{
+					icon = "tech-desktop"
+				}
+				page All_Course_Materials_Page
+				{
+					icon = "tech-desktop"
+				}
+			}
+			space Space
+			{
+				displayname = "Space"
+				icon = "tech-desktop"
+
+				section Dashboard
+				{
+					displayname = "Dashboard"
+					icon = "ui-1-dashboard-half"
+					page Dashboard
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Add_Course
+				{
+					displayname = "Courses"
+					icon = "design-book-open"
+					form  Add_Course
+					{
+						icon = "files-add"
+					}
+					report Upcoming_Courses
+					{
+						icon = "ui-2-hourglass"
+					}
+					report Ongoing_Courses
+					{
+						icon = "tech-desktop"
+					}
+					report Completed_Courses
+					{
+						icon = "design-todo"
+					}
+					report All_Courses
+					{
+						icon = "education-books-46"
+					}
+				}
+				section Add_Course_Content
+				{
+					displayname = "Course Materials"
+					icon = "ui-1-settings"
+					form  Add_Course_Material
+					{
+						icon = "files-folder-add"
+					}
+					form  Add_Topic
+					{
+						icon = "files-add"
+					}
+					report All_Course_Materials
+					{
+						icon = "files-folder-16"
+					}
+				}
+				section New_Section1
+				{
+					displayname = "Student"
+					icon = "users-man-23"
+					report Available_Courses_Student
+					{
+						icon = "ui-1-check-square-11"
+					}
+					report Ongoing_Courses_Student
+					{
+						icon = "tech-desktop"
+					}
+					report All_Courses_Student
+					{
+						icon = "design-book-open"
+					}
+					report My_Payments
+					{
+						icon = "business-money-11"
+					}
+					report My_Profile_Student
+					{
+						icon = "users-2-contacts-44"
+					}
+				}
+				section New_Section
+				{
+					displayname = "Tutor"
+					icon = "business-businessman-03"
+					report Open_Courses
+					{
+						icon = "ui-1-check-circle-07"
+					}
+					report Tutoring_Requests_Tutor
+					{
+						icon = "users-add-27"
+					}
+					report My_Courses_Tutor
+					{
+						icon = "education-book-open"
+					}
+					report My_Profile_Tutor
+					{
+						icon = "files-user"
+					}
+				}
+				section Tutoring_Requests
+				{
+					displayname = "Tutoring Requests"
+					icon = "shopping-list"
+					report Pending_Requests
+					{
+						icon = "ui-2-hourglass"
+					}
+					report All_Requests
+					{
+						icon = "shopping-receipt-list-43"
+					}
+				}
+				section Course_Payments1
+				{
+					displayname = "Course Payments"
+					icon = "business-payment"
+					report All_Payments
+					{
+						icon = "business-handout"
+					}
+				}
+				section Course_Categories1
+				{
+					displayname = "Course Categories"
+					icon = "ui-1-settings-gear-64"
+					report Course_Categories
+					{
+						icon = "business-hierarchy-53"
+					}
+				}
+				section Add_Tutor
+				{
+					displayname = "Users"
+					icon = "users-multiple-19"
+					form  Enroll_User
+					{
+						icon = "users-add-27"
+					}
+					report Active_Tutors
+					{
+						icon = "users-2-a-check"
+					}
+					report Active_Students
+					{
+						icon = "users-2-b-check"
+					}
+					report All_Users
+					{
+						icon = "users-multiple-19"
+					}
+				}
+				section page
+				{
+					displayname = "Duplicated Copy of Course Subscription"
+					icon = "tech-desktop"
+				}
+				section Copy_of_Confirmation_Message
+				{
+					displayname = "Copy of Confirmation Message"
+					icon = "tech-desktop"
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section AI_Learning_Assistant
+				{
+					displayname = "AI_Learning_Assistant"
+					icon = "tech-desktop"
+					form  AI_Learning_Assistant
+					{
+						icon = "tech-desktop"
+					}
+					report AI_Learning_Assistant_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section AI_Agents
+				{
+					displayname = "AI Agents"
+					icon = "ui-2-chat-content"
+					chat Course_Planner_AI_Assistant
+					{
+						icon = "education-award-55"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = blue
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form Add_Course
+			{
+				label placement = left
+			}
+			form Add_Course_Category
+			{
+				label placement = left
+			}
+			form Add_Course_Material
+			{
+				label placement = auto
+			}
+			form Add_Topic
+			{
+				label placement = auto
+			}
+			form Course_Payment
+			{
+				label placement = auto
+			}
+			form Course_Subscription
+			{
+				label placement = left
+			}
+			form Enroll_User
+			{
+				label placement = left
+			}
+			form Tutoring_Approval_Confirmation
+			{
+				label placement = left
+			}
+			form Tutoring_Request
+			{
+				label placement = auto
+			}
+		}
+		reports
+		{
+			report Upcoming_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Ongoing_Courses
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+		 				type = 9
+						datablock1
+						(
+			 				display type = list
+							layout type = 31
+		     				title = "Overview"
+							fields
+							(
+								Course_Name as "Course Name"
+								Category
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on tap
+						(
+							View Record   	   
+    					)
+						on long press
+						(
+							Duplicate   	   
+							View Record   	   
+    					)
+						on right swipe
+						(
+							Edit   	   
+							Delete   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Course Details"
+							fields
+							(
+								Course_Name as "Course Name"
+								Course_Code as "Course Code"
+								Category
+								Select_Tutor as "Select Tutor"
+								Start_Date as "Start Date"
+								End_Date as "End Date"
+								Course_Summary as "Course Summary"
+								Course_Type as "Course Type"
+								Amount
+								Participants
+								Maximum_participants_allowed as "Maximum participants allowed"
+								Seats_Remaining as "Seats Remaining"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			unused
+			{
+ 
+				report Course_wise_Students
+				{
+					icon = "business-chart-bar-32"
+				}
+				report All_Topics
+				{
+					icon = "design-bullet-list-67"
+				}
+				report Course_Page
+				{
+					icon = "design-bullet-list-67"
+				}
+ 
+				report Course_wise_Payments
+				{
+					icon = "business-chart-bar-32"
+				}
+ 
+				report Monthly_Payments
+				{
+					icon = "business-chart-bar-32"
+				}
+ 
+				report Monthly_Joinees
+				{
+					icon = "business-chart-bar-32"
+				}
+				form  Course_Subscription
+				{
+					icon = "tech-desktop"
+				}
+				form  Tutoring_Request
+				{
+					icon = "ui-1-bold-add"
+				}
+				form  Course_Payment
+				{
+					icon = "business-money-bag"
+				}
+				form  Add_Course_Category
+				{
+					icon = "location-pin-add"
+				}
+				form  Tutoring_Approval_Confirmation
+				{
+					icon = "tech-desktop"
+				}
+				page All_Course_Materials_Page
+				{
+					icon = "tech-desktop"
+				}
+			}
+			space Space
+			{
+				displayname = "Space"
+				icon = "tech-desktop"
+
+				section Dashboard
+				{
+					displayname = "Dashboard"
+					icon = "ui-1-dashboard-half"
+					page Dashboard
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Add_Course
+				{
+					displayname = "Courses"
+					icon = "design-book-open"
+					form  Add_Course
+					{
+						icon = "files-add"
+					}
+					report Upcoming_Courses
+					{
+						icon = "ui-2-hourglass"
+					}
+					report Ongoing_Courses
+					{
+						icon = "tech-desktop"
+					}
+					report Completed_Courses
+					{
+						icon = "design-todo"
+					}
+					report All_Courses
+					{
+						icon = "education-books-46"
+					}
+				}
+				section Add_Course_Content
+				{
+					displayname = "Course Materials"
+					icon = "ui-1-settings"
+					form  Add_Course_Material
+					{
+						icon = "files-folder-add"
+					}
+					form  Add_Topic
+					{
+						icon = "files-add"
+					}
+					report All_Course_Materials
+					{
+						icon = "files-folder-16"
+					}
+				}
+				section New_Section1
+				{
+					displayname = "Student"
+					icon = "users-man-23"
+					report Available_Courses_Student
+					{
+						icon = "ui-1-check-square-11"
+					}
+					report Ongoing_Courses_Student
+					{
+						icon = "tech-desktop"
+					}
+					report All_Courses_Student
+					{
+						icon = "design-book-open"
+					}
+					report My_Payments
+					{
+						icon = "business-money-11"
+					}
+					report My_Profile_Student
+					{
+						icon = "users-2-contacts-44"
+					}
+				}
+				section New_Section
+				{
+					displayname = "Tutor"
+					icon = "business-businessman-03"
+					report Open_Courses
+					{
+						icon = "ui-1-check-circle-07"
+					}
+					report Tutoring_Requests_Tutor
+					{
+						icon = "users-add-27"
+					}
+					report My_Courses_Tutor
+					{
+						icon = "education-book-open"
+					}
+					report My_Profile_Tutor
+					{
+						icon = "files-user"
+					}
+				}
+				section page
+				{
+					displayname = "Duplicated Copy of Course Subscription"
+					icon = "tech-desktop"
+				}
+				section Tutoring_Requests
+				{
+					displayname = "Tutoring Requests"
+					icon = "shopping-list"
+					report Pending_Requests
+					{
+						icon = "ui-2-hourglass"
+					}
+					report All_Requests
+					{
+						icon = "shopping-receipt-list-43"
+					}
+				}
+				section Course_Payments1
+				{
+					displayname = "Course Payments"
+					icon = "business-payment"
+					report All_Payments
+					{
+						icon = "business-handout"
+					}
+				}
+				section Course_Categories1
+				{
+					displayname = "Course Categories"
+					icon = "ui-1-settings-gear-63"
+					report Course_Categories
+					{
+						icon = "business-hierarchy-53"
+					}
+				}
+				section Add_Tutor
+				{
+					displayname = "Users"
+					icon = "users-multiple-19"
+					form  Enroll_User
+					{
+						icon = "users-add-27"
+					}
+					report Active_Tutors
+					{
+						icon = "users-2-a-check"
+					}
+					report Active_Students
+					{
+						icon = "users-2-b-check"
+					}
+					report All_Users
+					{
+						icon = "users-multiple-19"
+					}
+				}
+				section Copy_of_Confirmation_Message
+				{
+					displayname = "Copy of Confirmation Message"
+					icon = "tech-desktop"
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section AI_Learning_Assistant
+				{
+					displayname = "AI_Learning_Assistant"
+					icon = "tech-desktop"
+					form  AI_Learning_Assistant
+					{
+						icon = "tech-desktop"
+					}
+					report AI_Learning_Assistant_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section AI_Agents
+				{
+					displayname = "AI Agents"
+					icon = "ui-2-chat-content"
+					chat Course_Planner_AI_Assistant
+					{
+						icon = "education-award-55"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = blue
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+	reports configuration
+	{
+	
+		Version = 2000056717013
+		Key     = "aTbDmVtC9AZXz89C52TKEP3OuYzzmayFaGRbAXrwUOEWqSPPe8rtzr9KPVdWfHBeErYmUx32y45FXFXsOJXqOV6HPXgXNRSGvun4"
+	}
+}
